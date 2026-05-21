@@ -1,0 +1,29 @@
+# 依赖目录
+node_modules/
+
+# 缩略图缓存
+.thumbnails/
+*/.thumbnails/
+
+# 配置文件（可选，可根据需要保留或忽略）
+# config.json
+
+# 日志
+*.log
+npm-debug.log*
+
+# 临时文件
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# 视频文件（避免上传大文件）
+*.mp4
+*.mkv
+*.avi
+*.mov
+*.wmv
+*.flv
+*.webm
+*.m4v
