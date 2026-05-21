@@ -7,70 +7,71 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🎬 本地视频播放器</h1>
-            <p class="subtitle">高性能局域网视频播放中心</p>
-        </header>
-
-        <div class="info-panel">
-            <div class="info-item">
-                <span class="label">📁 视频目录:</span>
-                <span id="videoPath" class="value">加载中...</span>
-                <button class="btn-small" onclick="openVideoFolder()" title="打开视频文件夹">📂 打开</button>
+    <!-- 顶部导航 -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">🎬</span>
+                <span>本地视频</span>
             </div>
-            <div class="info-item">
-                <span class="label">📊 视频数量:</span>
-                <span id="videoCount" class="value">0</span>
-            </div>
-            <div class="info-item">
-                <span class="label">⌨️ 快捷键:</span>
-                <span class="value">空格 播放/暂停 | ←→ 快进 | f 全屏</span>
+            <div class="header-info">
+                <span class="path-display">📁 <span id="videoPath">加载中...</span></span>
+                <button class="open-folder-btn" onclick="openVideoFolder()">打开文件夹</button>
+                <span id="videoCount">0 个视频</span>
             </div>
         </div>
+    </header>
 
-        <div class="video-player-section" id="playerSection" style="display: none;">
-            <div class="player-header">
-                <h2 id="currentVideoName">正在播放</h2>
-                <div class="player-controls">
-                    <button class="control-btn" id="prevBtn" onclick="playPrevious()" title="上一个 (p)">⏮ 上一个</button>
-                    <button class="control-btn" id="nextBtn" onclick="playNext()" title="下一个 (n)">下一个 ⏭</button>
-                    <div class="speed-control">
-                        <button class="speed-btn active" data-speed="1" onclick="setPlaybackSpeed('1')">1x</button>
-                        <button class="speed-btn" data-speed="1.25" onclick="setPlaybackSpeed('1.25')">1.25x</button>
-                        <button class="speed-btn" data-speed="1.5" onclick="setPlaybackSpeed('1.5')">1.5x</button>
-                        <button class="speed-btn" data-speed="2" onclick="setPlaybackSpeed('2')">2x</button>
-                    </div>
-                    <button class="control-btn" onclick="toggleFullscreen()" title="全屏 (f)">⛶ 全屏</button>
-                    <button class="control-btn btn-close" onclick="closePlayer()" title="关闭 (Esc)">✕ 关闭</button>
+    <!-- 播放器全屏容器 -->
+    <div class="player-container" id="playerContainer">
+        <div class="player-header">
+            <div class="player-title" id="currentVideoName">正在播放</div>
+            <div class="player-controls">
+                <button class="control-btn" id="prevBtn" onclick="playPrevious()">⏮ 上一集</button>
+                <button class="control-btn" id="nextBtn" onclick="playNext()">下一集 ⏭</button>
+                <div class="speed-control">
+                    <button class="speed-btn active" data-speed="1" onclick="setPlaybackSpeed('1')">1x</button>
+                    <button class="speed-btn" data-speed="1.25" onclick="setPlaybackSpeed('1.25')">1.25x</button>
+                    <button class="speed-btn" data-speed="1.5" onclick="setPlaybackSpeed('1.5')">1.5x</button>
+                    <button class="speed-btn" data-speed="2" onclick="setPlaybackSpeed('2')">2x</button>
                 </div>
-            </div>
-            <video id="videoPlayer" controls>
-                您的浏览器不支持视频播放
-            </video>
-            <div class="player-tips">
-                <span class="tip">💡 空格: 播放/暂停 | ←→: 快进10秒 | ↑↓: 音量 | n/p: 上下集</span>
+                <button class="control-btn" onclick="toggleFullscreen()">⛶ 全屏</button>
+                <button class="control-btn close-btn" onclick="closePlayer()">✕ 关闭</button>
             </div>
         </div>
-
-        <div class="video-list-section" id="listSection">
-            <div class="list-header">
-                <h2>📂 视频列表</h2>
-                <div id="breadcrumb" class="breadcrumb"></div>
-            </div>
-            <div id="videoList" class="browser-grid">
-                <div class="loading">加载中...</div>
-            </div>
-        </div>
-
-        <div class="empty-tip" id="emptyTip" style="display: none;">
-            <p>📭 暂无视频文件</p>
-            <p class="hint">请将视频文件放到配置目录后刷新页面</p>
+        <video id="videoPlayer" controls></video>
+        <div class="player-tips">
+            💡 空格: 播放/暂停 | ←→: 快进10秒 | ↑↓: 音量 | n/p: 上下集
         </div>
     </div>
 
+    <!-- 主内容区 -->
+    <main class="container">
+        <!-- 面包屑导航 -->
+        <div class="breadcrumb-section">
+            <div id="breadcrumb" class="breadcrumb"></div>
+        </div>
+
+        <!-- 页面标题 -->
+        <div class="page-title">
+            <h1>📂 全部视频</h1>
+        </div>
+
+        <!-- 内容网格 -->
+        <div id="videoList" class="content-grid">
+            <div class="loading">加载中...</div>
+        </div>
+
+        <!-- 空状态 -->
+        <div class="empty-tip" id="emptyTip" style="display: none;">
+            <div class="icon">📭</div>
+            <p>暂无视频文件</p>
+            <p class="hint">请将视频文件放到视频目录后刷新页面</p>
+        </div>
+    </main>
+
     <footer>
-        <p>💾 播放进度自动保存 | 🎯 进度条记忆 | ⌨️ 全键盘控制</p>
+        <p>💾 播放进度自动保存 | 🎯 支持局域网访问 | ⌨️ 全键盘控制</p>
     </footer>
 
     <script src="app.js"></script>

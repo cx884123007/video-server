@@ -114,19 +114,21 @@ function renderBreadcrumb() {
 function renderVideos() {
     const listEl = document.getElementById('videoList');
     const emptyTip = document.getElementById('emptyTip');
-    const listSection = document.getElementById('listSection');
 
     if (videos.length === 0) {
-        listSection.style.display = 'none';
+        listEl.style.display = 'none';
         emptyTip.style.display = 'block';
         return;
     }
 
-    listSection.style.display = 'block';
+    listEl.style.display = 'grid';
     emptyTip.style.display = 'none';
     const history = getPlaybackHistory();
 
     renderBreadcrumb();
+
+    // 更新视频数量
+    document.getElementById('videoCount').textContent = `${videos.length} 个视频`;
 
     const subfolders = getSubfolders();
     const currentVideos = getCurrentVideos();
@@ -202,17 +204,15 @@ function playVideoByIndex(index) {
 }
 
 function playVideo(encodedName, displayName) {
-    const playerSection = document.getElementById('playerSection');
-    const listSection = document.getElementById('listSection');
+    const playerContainer = document.getElementById('playerContainer');
     const player = document.getElementById('videoPlayer');
     const nameEl = document.getElementById('currentVideoName');
 
     player.src = `/video/${encodedName}`;
     const video = videos[currentVideoIndex];
-    nameEl.textContent = '🎬 ' + (video?.fileName || displayName);
+    nameEl.textContent = video?.fileName || displayName;
 
-    playerSection.style.display = 'block';
-    listSection.style.display = 'none';
+    playerContainer.classList.add('active');
 
     const savedProgress = getPlaybackProgress(displayName);
     player.onloadedmetadata = () => {
@@ -246,14 +246,12 @@ function playNext() {
 }
 
 function closePlayer() {
-    const playerSection = document.getElementById('playerSection');
-    const listSection = document.getElementById('listSection');
+    const playerContainer = document.getElementById('playerContainer');
     const player = document.getElementById('videoPlayer');
 
     player.pause();
     player.src = '';
-    playerSection.style.display = 'none';
-    listSection.style.display = 'block';
+    playerContainer.classList.remove('active');
 
     window.location.hash = '';
     currentVideoIndex = -1;
@@ -304,10 +302,10 @@ function checkHash() {
 }
 
 document.addEventListener('keydown', (e) => {
-    const player = document.getElementById('videoPlayer');
-    const playerSection = document.getElementById('playerSection');
+        const player = document.getElementById('videoPlayer');
+        const playerContainer = document.getElementById('playerContainer');
 
-    if (playerSection.style.display === 'none') return;
+    if (!playerContainer.classList.contains('active')) return;
 
     switch(e.key) {
         case ' ':
