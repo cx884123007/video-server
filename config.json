@@ -1,5 +1,5 @@
 {
-  "videoPath": "D:\\jianpianDownload",
+  "videoPath": "path",
   "port": 3000,
   "allowCors": true
 }
